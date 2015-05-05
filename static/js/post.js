@@ -10,7 +10,7 @@ $(function () {
   var url = location.href;
   var postId = url.getParam("id");
 
-  $.getJSON('./json/posts.json', function (r) {
+  $.getJSON('../json/posts.json', function (r) {
     var content = lang.String.decodeHtml(r[postId].content)
 
     $('.g-blog-post-markdown').html(content)
