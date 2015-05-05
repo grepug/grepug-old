@@ -1,0 +1,12 @@
+body {
+  background-color: #eee;
+}
+
+.g-blog-post-markdown {
+  padding: 20px 30px;
+  background-color: #fff;
+}
+
+.g-blog-post-markdown p {
+  font-size: 1.2em;
+}

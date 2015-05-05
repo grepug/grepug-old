@@ -1,0 +1,32 @@
+extends jade/layout
+
+block title
+  title home page
+block styles
+  link(rel="stylesheet", href="./static/bower_components/bootstrap/dist/css/bootstrap.min.css")
+  link(rel="stylesheet", href="./static/css/footer.css")
+  link(rel="stylesheet", href="./static/css/index.css")
+  link(rel="stylesheet", href="./static/css/blog.css")
+block prepend nav
+  .jumbotron
+    .container
+      h1 #{lang.index.jumbotron.mainTitle}
+      h4.g-blog-description #{lang.index.jumbotron.subtitle}
+      br
+
+      btn.btn.btn-trans.btn-lg.hidden-xs #{lang.index.jumbotron.btn1}
+      btn.btn.btn-trans.btn-lg.hidden-xs #{lang.index.jumbotron.btn2}
+      btn.btn.btn-trans.btn-lg.hidden-xs #{lang.index.jumbotron.btn3}
+      btn.btn.btn-trans.btn-lg.hidden-xs #{lang.index.jumbotron.btn4}
+
+      btn.btn.btn-trans.visible-xs-block #{lang.index.jumbotron.btn1} 
+      btn.btn.btn-trans.visible-xs-block #{lang.index.jumbotron.btn2}
+      btn.btn.btn-trans.visible-xs-block #{lang.index.jumbotron.btn3}
+      btn.btn.btn-trans.visible-xs-block #{lang.index.jumbotron.btn4}
+block content
+  .container
+    include ./jade/inc/blogContent
+block scripts
+  script(src="./static/bower_components/jquery/dist/jquery.min.js")
+  script(src="./static/bower_components/bootstrap/dist/js/bootstrap.min.js")
+  script(src="./static/js/index.js")

@@ -1,0 +1,20 @@
+{
+  "lang": "EN",
+  "youziku": [
+    "46818",
+    "46768"
+  ],
+  "index": {
+    "jumbotron": {
+      "mainTitle": "Welcome to my Inn!",
+      "subtitle": "Innovation distinguishes between a leader and a follower!",
+      "btn1": "What's hot",
+      "btn2": "What's good",
+      "btn3": "What's fun",
+      "btn4": "What's useful"
+    }
+  },
+  "nav": {
+    "language": "Language"
+  }
+}
