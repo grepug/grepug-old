@@ -19,10 +19,12 @@ $(function () {
 
     $('title').text(title)
     $('.g-blog-post-markdown').html(content)
+
+    if ($(window).height() < $('body').height())
+      $('footer').removeClass('navbar-fixed-bottom')
   })
 
-  if ($(window).height() < $('body').height())
-    $('footer').removeClass('navbar-fixed-bottom')
+
 
   $(window).scroll(function () {
     var jumHeight = $('.jumbotron').height(),

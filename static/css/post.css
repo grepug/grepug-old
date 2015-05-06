@@ -14,3 +14,10 @@ body {
 .g-blog-post-markdown p {
   font-size: 1.2em;
 }
+
+@media(min-width: 768px) {
+  .g-blog-post-markdown {
+    margin-left: 15em;
+    margin-right: 15em;
+  }
+}

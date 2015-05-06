@@ -6,13 +6,11 @@
       h2.g-blog-post-title {{title}}
       p.g-blog-post-preview {{preview}}
       p.g-blog-post-footer
-        span.g-blog-post-meta {{date}}
+        span.g-blog-post-meta {{time date}}&nbsp;
           a(href="#") {{author}}
         span.g-blog-post-share
           a
             span.glyphicon.glyphicon-star
-          a
-            span.glyphicon.glyphicon-eye-open
         a.g-blog-post-detail(href="/post?title={{title}}") show all
     | {{/each}}
   .col-sm-2
