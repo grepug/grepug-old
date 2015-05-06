@@ -21,7 +21,6 @@ $(function () {
     if (scrollTop > jumHeight) $('nav').addClass('navbar-fixed-top')
     else $('nav').removeClass('navbar-fixed-top')
   })
-
 })
 
 function rep(data) {

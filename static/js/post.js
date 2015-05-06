@@ -21,6 +21,13 @@ $(function () {
     $('.g-blog-post-markdown').html(content)
   })
 
-  if ($(document).height() > $('body').height + 100)
+  if ($(window).height() < $('body').height())
     $('footer').removeClass('navbar-fixed-bottom')
+
+  $(window).scroll(function () {
+    var jumHeight = $('.jumbotron').height(),
+      scrollTop = $(window).scrollTop()
+    if (scrollTop > jumHeight) $('nav').addClass('navbar-fixed-top')
+    else $('nav').removeClass('navbar-fixed-top')
+  })
 })
