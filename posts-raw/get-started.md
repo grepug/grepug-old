@@ -1,4 +1,4 @@
-# My First Article
+# Get Started
 
 <https://grepug.github.io>
 
@@ -13,5 +13,4 @@ I have tried making a site using NodeJS for couple of days. And I finally realiz
 ## This Site is a Static Site
 
 That's to say no server side program is running when the site is visited. And this kind of site is just perfect for display static contents, for example, blog website....
-
 

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/grepug/grepug.github.io",
   "devDependencies": {
+    "browserify": "^10.1.0",
     "connect": "^3.3.5",
     "escape-html": "^1.0.1",
     "grunt": "^0.4.5",
@@ -27,6 +28,7 @@
     "grunt-jade-tasks": "0.0.0",
     "grunt-markdown": "^0.7.0",
     "grunt-nodemon": "^0.4.0",
+    "handlebars": "^3.0.3",
     "html-minifier": "^0.7.2",
     "jade": "^1.9.2",
     "markdown-it": "^4.2.1",

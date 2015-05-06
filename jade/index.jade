@@ -1,4 +1,4 @@
-extends jade/layout
+extends ./layout
 
 block title
   title home page
@@ -24,9 +24,14 @@ block prepend nav
       btn.btn.btn-trans.visible-xs-block #{lang.index.jumbotron.btn3}
       btn.btn.btn-trans.visible-xs-block #{lang.index.jumbotron.btn4}
 block content
-  .container
-    include ./jade/inc/blogContent
+  .container#blogPreview
+    //-include ./inc/blogContent
 block scripts
   script(src="./static/bower_components/jquery/dist/jquery.min.js")
   script(src="./static/bower_components/bootstrap/dist/js/bootstrap.min.js")
+  script(src="./static/js/handlebars.min.js")
+  script(src="./static/js/unescape-html.js")
   script(src="./static/js/index.js")
+  script#blogPreview-tpl(type='text/x-handlebars-template')
+    include ./inc/blogContent
+  

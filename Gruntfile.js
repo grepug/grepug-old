@@ -35,8 +35,23 @@ module.exports = function (grunt) {
             livereload: false
           }
         },
+        //        files: [
+        //          {
+        //            expand: true,
+        //            src: './jade/post.jade',
+        //            dest: 'post/',
+        //            ext: '.html'
+        //          },
+        //          {
+        //            expand: true,
+        //            src: './jade/index.jade',
+        //            dest: '../',
+        //            ext: '.html'
+        //          }
+        //        ]
         files: {
-          "./post.html": "./jade/post.jade"
+          "./index.html": "./jade/index.jade",
+          "./post/index.html": './jade/post.jade'
         }
       },
       post: {
@@ -125,10 +140,12 @@ module.exports = function (grunt) {
         var stat = fs.statSync('./posts-raw/' + name)
         var md = fs.readFileSync('./posts-raw/' + name).toString()
         var html = marked(md)
-        var preview = html.substring(html.indexOf("<pre>") + 5, html.indexOf('</pre>'))
+        var preview = html.substring(html.indexOf("<pre>") + 11, html.indexOf('</code>'))
+        if (preview.indexOf("<code>") != -1)
+          preview = preview.substring(preview.indexOf("<code>" + 6, preview.indexOf('</code>')))
         console.log(preview)
         posts.push({
-          title: name,
+          title: name.replace(".md", ""),
           date: stat.ctime,
           author: "GrePuG",
           preview: preview,

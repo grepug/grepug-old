@@ -2,6 +2,10 @@ body {
   background-color: #eee;
 }
 
+.row {
+  margin-bottom: 60px;
+}
+
 .g-blog-post-markdown {
   padding: 20px 30px;
   background-color: #fff;

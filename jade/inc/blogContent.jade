@@ -1,17 +1,18 @@
 .row
   .col-sm-2
   .col-sm-8.g-blog-main
-    each p in posts.posts
-      .g-blog-post
-        h2.g-blog-post-title #{p.title}
-        p.g-blog-post-preview #{p.preview}
-        p.g-blog-post-footer
-          span.g-blog-post-meta #{p.date} 
-            a(href="#") #{p.author}
-          span.g-blog-post-share
-            a
-              span.glyphicon.glyphicon-star
-            a
-              span.glyphicon.glyphicon-eye-open
-          a.g-blog-post-detail(href="") show all
+    | {{#each p}}
+    .g-blog-post
+      h2.g-blog-post-title {{title}}
+      p.g-blog-post-preview {{preview}}
+      p.g-blog-post-footer
+        span.g-blog-post-meta {{date}}
+          a(href="#") {{author}}
+        span.g-blog-post-share
+          a
+            span.glyphicon.glyphicon-star
+          a
+            span.glyphicon.glyphicon-eye-open
+        a.g-blog-post-detail(href="/post?title={{title}}") show all
+    | {{/each}}
   .col-sm-2
