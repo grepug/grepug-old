@@ -35,6 +35,10 @@ h6,
   font-size: 1.8em;
 }
 
+.g-blog-post-title a:hover {
+  text-decoration: none;
+}
+
 .g-blog-post-preview {
   text-align: left;
   padding-bottom: 10px;
@@ -53,8 +57,4 @@ h6,
 .g-blog-post-meta {
   margin-bottom: 20px;
   color: #999;
-}
-
-.g-blog-post-detail {
-  float: right;
 }

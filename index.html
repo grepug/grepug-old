@@ -69,9 +69,9 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-8 g-blog-main">{{#each p}}
           <div class="g-blog-post">
-            <h2 class="g-blog-post-title">{{title}}</h2>
+            <h2 class="g-blog-post-title"><a href="/post?title={{title}}">{{title}}</a></h2>
             <p class="g-blog-post-preview">{{preview}}</p>
-            <p class="g-blog-post-footer"><span class="g-blog-post-meta">updated {{time updatedAt}}&nbsp;<a href="#">{{author}}</a></span><span class="g-blog-post-share"><a><span class="glyphicon glyphicon-star"></span></a></span><a href="/post?title={{title}}" class="g-blog-post-detail">show all</a></p>
+            <p class="g-blog-post-footer"><span class="g-blog-post-meta">updated {{time updatedAt}}&nbsp;<a href="#">{{author}}</a></span><span class="g-blog-post-share"><a><span class="glyphicon glyphicon-star"></span></a></span></p>
           </div>{{/each}}
         </div>
         <div class="col-sm-2"></div>

@@ -3,7 +3,8 @@
   .col-sm-8.g-blog-main
     | {{#each p}}
     .g-blog-post
-      h2.g-blog-post-title {{title}}
+      h2.g-blog-post-title
+        a(href="/post?title={{title}}") {{title}}
       p.g-blog-post-preview {{preview}}
       p.g-blog-post-footer
         span.g-blog-post-meta updated {{time updatedAt}}&nbsp;
@@ -11,6 +12,5 @@
         span.g-blog-post-share
           a
             span.glyphicon.glyphicon-star
-        a.g-blog-post-detail(href="/post?title={{title}}") show all
     | {{/each}}
   .col-sm-2
