@@ -132,37 +132,49 @@ module.exports = function (grunt) {
   grunt.registerTask('p', '', function () {
 
     var r = require('./json/posts.json')
-      //console.log(r.length)
     var posts = []
-      //    grunt.task.run(['htmlmin:dev'])
-    grunt.file.recurse('./posts-raw/', function (abs, root, sub, name) {
-      if (/.md/.test(name)) {
-        var stat = fs.statSync('./posts-raw/' + name)
-        var md = fs.readFileSync('./posts-raw/' + name).toString()
-        var html = marked(md)
-        var preview = html.substring(html.indexOf("<pre>") + 11, html.indexOf('</code>'))
-        if (preview.indexOf("<code>") != -1)
-          preview = preview.substring(preview.indexOf("<code>" + 6, preview.indexOf('</code>')))
+    var isNew = function (mdName) {
+      for (var i = 0; i < r.length; i++) {
+        if (r[i].mdName == mdName) return r[i]
+      }
+      return true
+    }
+    grunt.file.recurse('./posts-raw/', function (abs, root, sub, mdName) {
+      if (/.md/.test(mdName)) {
+        var _isNew = isNew(mdName)
+        var _isNew = true
+        var stat = fs.statSync('./posts-raw/' + mdName)
+        var md = fs.readFileSync('./posts-raw/' + mdName).toString()
+        var html = marked(md).replace(/[\r\n]/g, "")
+        var preview = html.match(/<blockquote><p>([\w|\W]+)<\/p><\/blockquote>/)[1]
+        var title = html.match(/^<h1\sid=\"(\w|\d|-)+\">([\w|\s|!|\.|\,|\?]+)<\/h1>/)[2]
         console.log(preview)
-        posts.push({
-          title: name.replace(".md", ""),
-          date: stat.ctime,
-          author: "GrePuG",
-          preview: preview,
-          update: stat.mtime,
-          atime: stat.atime,
-          content: es(html),
-        })
+        console.log(title)
+
+        if (_isNew === true) {
+          var data = {
+            title: title,
+            author: "GrePuG",
+            preview: preview,
+            content: es(html),
+            mdName: mdName,
+            createdAt: stat.ctime,
+            updatedAt: stat.ctime,
+          }
+        } else {
+          var data = _isNew
+          data.updatedAt = stat.ctime
+          data.content = es(html)
+          data.preview = preview
+          data.title = title
+        }
+        posts.push(data)
       }
     })
-    console.log(posts)
-      //    for (var i = 0; i < r.length; i++) {
-      //      if (r.id == posts.id) {
-      //        for (var p in posts[i]) {
-      //          r[i].p = posts[i][p]
-      //        }
-      //      }
-      //    }
+    posts.sort(function (x, y) {
+      if (new Date(x.createdAt).getTime() < new Date(y.createdAt).getTime()) return 1
+      return -1
+    })
     fs.writeFileSync('./json/posts.json', JSON.stringify(posts))
   })
 

@@ -15,7 +15,7 @@ block prepend nav
       h1 #{lang.index.jumbotron.mainTitle}
       h4.g-blog-description #{lang.index.jumbotron.subtitle}
       br
-
+  
       btn.btn.btn-trans.btn-lg.hidden-xs #{lang.index.jumbotron.btn1}
       btn.btn.btn-trans.btn-lg.hidden-xs #{lang.index.jumbotron.btn2}
       btn.btn.btn-trans.btn-lg.hidden-xs #{lang.index.jumbotron.btn3}
@@ -34,6 +34,7 @@ block scripts
   script(src="./static/js/handlebars.min.js")
   script(src="./static/js/unescape-html.js")
   script(src="./static/js/index.js")
+  script(src="./static/js/NiceTime.js")
   script#blogPreview-tpl(type='text/x-handlebars-template')
     include ./inc/blogContent
   

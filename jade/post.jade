@@ -5,8 +5,17 @@ block title
 block append styles
   link(rel="stylesheet", href="../static/css/post.css")
 block content
-  .g-blog-post-markdown
-        
-  
+  .g-blog-post
 block append scripts
+  script(src="../static/js/handlebars.min.js")
   script(src="../static/js/post.js")
+  script(src="../static/js/NiceTime.js")
+  script#g-post-tpl(type='text/x-handlebars-template')
+    .g-blog-post-content
+      | {{{content}}}
+    .g-blog-post-footer
+      span.g-blog-post-meta updated {{time updatedAt}} by
+          a(href="#") &nbsp; {{author}}
+        span.g-blog-post-share
+          a
+            span.glyphicon.glyphicon-star

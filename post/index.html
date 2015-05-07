@@ -16,7 +16,7 @@
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display-->
         <div class="navbar-header">
-          <button type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" class="navbar-brand">GrePuG</a>
+          <button type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">GrePuG</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling-->
         <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
@@ -36,7 +36,7 @@
         </div>
       </div>
     </nav>
-    <div class="g-blog-post-markdown"></div>
+    <div class="g-blog-post"></div>
     <footer>
       <div class="container">
         <p>Welcome to my site！</p>
@@ -46,6 +46,12 @@
     <script src="../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../static/js/common.js"></script>
     <script src="../static/js/unescape-html.js"></script>
+    <script src="../static/js/handlebars.min.js"></script>
     <script src="../static/js/post.js"></script>
+    <script src="../static/js/NiceTime.js"></script>
+    <script id="g-post-tpl" type="text/x-handlebars-template">
+      <div class="g-blog-post-content">{{{content}}}</div>
+      <div class="g-blog-post-footer"><span class="g-blog-post-meta">updated {{time updatedAt}} by<a href="#">&nbsp; {{author}}</a></span><span class="g-blog-post-share"><a><span class="glyphicon glyphicon-star"></span></a></span></div>
+    </script>
   </body>
 </html>

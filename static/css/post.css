@@ -6,17 +6,30 @@ body {
   margin-bottom: 60px;
 }
 
-.g-blog-post-markdown {
+.g-blog-post {
   padding: 20px 30px;
   background-color: #fff;
 }
 
-.g-blog-post-markdown p {
+.g-blog-post-content {
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eee;
+}
+
+.g-blog-post-content p {
   font-size: 1.2em;
 }
 
+.g-blog-post-footer {
+  padding-top: 10px;
+}
+
+.g-blog-post-footer .g-blog-post-share {
+  margin-left: 20px;
+}
+
 @media(min-width: 768px) {
-  .g-blog-post-markdown {
+  .g-blog-post {
     margin-left: 15em;
     margin-right: 15em;
   }
