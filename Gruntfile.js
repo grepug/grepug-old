@@ -35,20 +35,6 @@ module.exports = function (grunt) {
             livereload: false
           }
         },
-        //        files: [
-        //          {
-        //            expand: true,
-        //            src: './jade/post.jade',
-        //            dest: 'post/',
-        //            ext: '.html'
-        //          },
-        //          {
-        //            expand: true,
-        //            src: './jade/index.jade',
-        //            dest: '../',
-        //            ext: '.html'
-        //          }
-        //        ]
         files: {
           "./index.html": "./jade/index.jade",
           "./post/index.html": './jade/post.jade'
@@ -80,32 +66,14 @@ module.exports = function (grunt) {
         port: 8001
       }
     },
-    //    htmlmin: { // Task 
-    //      dist: { // Target 
-    //        options: { // Target options 
-    //          removeComments: true,
-    //          collapseWhitespace: true
-    //        },
-    //        files: { // Dictionary of files 
-    //          'dist/index.html': 'src/index.html', // 'destination': 'source' 
-    //          'dist/contact.html': 'src/contact.html'
-    //        }
-    //      },
-    //      dev: {
-    //        options: { // Target options 
-    //          removeComments: true,
-    //          collapseWhitespace: true
-    //        }, // Another target 
-    //        files: [
-    //          {
-    //            expand: true,
-    //            src: 'posts-raw/*.html',
-    //            dest: './',
-    //            ext: '.html'
-    //          }
-    //        ]
-    //      }
-    //    }
+    blog_generator: {
+      options: {
+        rawMdPath: './posts-raw/',
+        jadePath: './jade/',
+        postsJsonPath: './json/posts.json',
+        tmpPath: './tmp/tmp.txt'
+      }
+    }
   });
 
 
@@ -116,7 +84,8 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jade');
-  //  grunt.loadNpmTasks('grunt-contrib-htmlmin');
+  grunt.loadNpmTasks('grunt-blog-generator');
+
 
   grunt.registerTask('web', 'Start web server...', function () {
     var options = this.options();
@@ -128,7 +97,9 @@ module.exports = function (grunt) {
     grunt.task.run(["watch:jade"]);
   });
 
-
+  grunt.registerTask('g', '', function () {
+    grunt.task.run('blog_generator')
+  })
   grunt.registerTask('p', '', function () {
 
     var r = require('./json/posts.json')
@@ -177,16 +148,6 @@ module.exports = function (grunt) {
     })
     fs.writeFileSync('./json/posts.json', JSON.stringify(posts))
   })
-
-  //  grunt.registerTask('pc', '', function () {
-  //    var marked = require('marked')
-  //    grunt.file.recurse('./posts-raw/', function (a, r, s, name) {
-  //      if (/.md/.test(name)) {
-  //        var _name = name.replace(/\.\w+$/, '') //remove the extension
-  //        fs.writeFileSync('./posts-raw/' + _name + '.html', marked(fs.readFileSync('./posts/' + name).toString()))
-  //      }
-  //    })
-  //  })
 
   grunt.registerTask('escape', '', function () {
     var es = require('escape-html')
