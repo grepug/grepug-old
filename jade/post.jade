@@ -6,16 +6,56 @@ block append styles
   link(rel="stylesheet", href="../static/css/post.css")
 block content
   .g-blog-post
+    .g-blog-post-main
+    //-.g-blog-comment
+    .g-blog-comment-editor
+  .modal.fade#g-editor-modal(tabindex="-1", role="dialog", aria-labelledby="", aria-hidden="true")
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          button.close(type="button", data-dismiss="modal", aria-label="Close")
+            span(aria-hidden="true") done
+          h4.modal-title 
+            .container-fluid Write your comment
+        .modal-body
+          .container-fluid
+            .row
+              .col-sm-6
+                textarea.form-control.comment-modal(rows="50")
+              .col-sm-6
+                .g-editor-preview
 block append scripts
   script(src="../static/js/handlebars.min.js")
+  script(src="https://leancloud.cn/scripts/lib/av-0.5.1.min.js")
   script(src="../static/js/post.js")
+  script(src="../static/js/marked.js")
   script(src="../static/js/NiceTime.js")
   script#g-post-tpl(type='text/x-handlebars-template')
     .g-blog-post-content
       | {{{content}}}
     .g-blog-post-footer
-      span.g-blog-post-meta updated {{time updatedAt}} by
-          a(href="#") &nbsp; {{author}}
-        span.g-blog-post-share
-          a
-            span.glyphicon.glyphicon-star
+      .container-fluid
+        .row
+          .col-sm-3
+            span.g-blog-post-meta updated {{time updatedAt true}}
+          .col-sm-9
+            span.g-blog-post-meta created at {{time createdAt false}}
+              span.g-blog-post-share
+                a
+                  span.glyphicon.glyphicon-star
+  script#g-post-comment-tpl(type='text/x-handlebars-template')
+    .g-blog-comment-block
+      .g-blog-comment-content
+        .container-fluid {{{content}}}
+      .g-blog-comment-footer
+        .container-fluid
+          .g-blog-comment-username \#{{i}} by {{username}} {{time createdAt}}
+  script#g-post-comment-editor-tpl(type='text/x-handlebars-template')
+    .form-inline.g-form
+      label(for="username") Your name
+      input.form-control#username(type="text")
+    label(for="comment") Your comment ( you can write with MarkDown )
+    textarea.form-control.comment(rows="5")
+    .g-blog-post-comment-footer
+      button.btn.btn-primary#g-blog-comment-submit Submit
+      a.btn.btn-success#g-editor-larger(data-toggle="modal", data-target="#g-editor-modal") Larger with preview

@@ -2,14 +2,21 @@ body {
   background-color: #eee;
 }
 
-.row {
-  margin-bottom: 60px;
+textarea {
+  overflow: hidden;
 }
 
 .g-blog-post {
-  padding: 20px 30px;
-  background-color: #fff;
+  margin-top: 60px;
 }
+
+.g-blog-post > div {
+  background-color: #fff;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+}
+
+.g-blog-post-main {}
 
 .g-blog-post-content {
   padding-bottom: 10px;
@@ -26,6 +33,63 @@ body {
 
 .g-blog-post-footer .g-blog-post-share {
   margin-left: 20px;
+}
+
+.g-blog-comment {
+  background-color: #eee;
+}
+
+.g-blog-comment-block {
+  margin-bottom: 20px;
+}
+
+.g-blog-comment-block h1 {
+  font-size: 24px;
+}
+
+.g-blog-comment-block h2 {
+  font-size: 18px;
+}
+
+.g-blog-comment-block h3 {
+  font-size: 12px;
+}
+
+.g-blog-comment-block h4 {
+  fonts-size: 6px;
+}
+
+.g-blog-comment-block > div {
+  background-color: #fff;
+}
+
+.g-blog-comment-content {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.g-blog-comment-footer {
+  padding-top: 10px;
+}
+
+.g-blog-comment-editor .g-blog-post-comment-footer {
+  margin-top: 10px;
+}
+
+.g-blog-comment-editor #g-blog-comment-submit {
+  text-align: right;
+}
+
+.g-form {
+  margin-bottom: 10px;
+}
+
+.g-form input {
+  margin-left: 10px;
+}
+
+.g-editor-preview {
+  overflow: auto;
 }
 
 @media(min-width: 768px) {

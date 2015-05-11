@@ -1,4 +1,4 @@
-function NiceTime(date, lang) {
+function NiceTime(date, lang, nicetime) {
 
   this.date = new Date(date)
   this.timeStamp = this.date.getTime() / 1000
@@ -13,6 +13,7 @@ function NiceTime(date, lang) {
   }
 
   this.lang = lang || 'EN'
+  this.nicetime = nicetime !== false ? true : false
 }
 
 NiceTime.prototype.byNow = function () {
@@ -24,7 +25,7 @@ NiceTime.prototype.byNow = function () {
 }
 
 NiceTime.prototype.get = function () {
-  var timeLevel = this.byNow()
+  var timeLevel = this.nicetime ? this.byNow() : 'more than a week'
 
   Number.prototype.niceTimeLang = function (timeLevel, lang) {
     if (lang.toUpperCase() == 'EN') {
@@ -74,6 +75,6 @@ NiceTime.prototype.get = function () {
       hour = this.date.getHours(),
       min = this.date.getMinutes(),
       sec = this.date.getSeconds();
-    return year + "/" + month + "/" + day + " " + hour + ":" + min
+    return year + "-" + month + "-" + day + " " + hour + ":" + min
   }
 }

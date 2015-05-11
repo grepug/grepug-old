@@ -1,53 +1,197 @@
 $(function () {
 
+  AV.initialize("xr3759mn36mdgbwuef3guyy0s45gooe1x9ggcp67yefecdy2", "7sa4nztm68wjud0q939y26a4jwmmep0zwjui6hj95il4lx1c");
+
   String.prototype.getParam = function (parm) {
-    var reg = new RegExp("(^|&)" + parm + "=([^&]*)(&|$)");
+    var reg = new RegExp("(^|&)" + parm + "=([^&]*)(&|$)")
 
-    var r = this.substr(this.indexOf("\?") + 1).match(reg);
-    console.log(r)
-    if (r != null) return unescape(r[2]);
-    return null;
+    var r = this.substr(this.indexOf("\?") + 1).match(reg)
+    if (r != null) return decodeURI(r[2])
+    return null
   }
 
-  var gTpl = function (selector) {
-    var source = $(selector).html();
-    return Handlebars.compile(source);
-  }
+  $('nav').addClass('navbar-fixed-top')
 
   var url = location.href;
   var title = url.getParam("title")
-  console.log(title)
   $.getJSON('../json/posts.json', function (r) {
     for (var i = 0; i < r.length; i++) {
       if (r[i].title == title.replace("#", "")) {
-        var content = lang.String.decodeHtml(r[i].content)
+        var content = decodeURI(r[i].content)
         var author = r[i].author
         var updatedAt = r[i].updatedAt
+        var createdAt = r[i].createdAt
+        var mdName = r[i].mdName
       }
     }
 
-    Handlebars.registerHelper('time', function (timestamp, options) {
-      return new NiceTime(timestamp, 'EN').get()
+    new Comment(mdName).get(function (r) {
+      var tpl = gTpl("#g-post-comment-tpl")
+
+      Handlebars.registerHelper('time', function (date, nicetime, options) {
+        return new NiceTime(date, 'EN', nicetime).get()
+      })
+
+      for (var i = 0; i < r.length; i++) {
+        var obj = r[i]
+        $('.g-blog-post-main').after(tpl({
+          username: obj.get('username'),
+          content: decodeURI(obj.get('content')),
+          createdAt: obj.createdAt,
+          i: i + 1
+        }))
+      }
+    })
+
+    Handlebars.registerHelper('time', function (date, nicetime, options) {
+      return new NiceTime(date, 'EN', nicetime).get()
     })
 
     $('title').text(title)
-    var tpl = gTpl('#g-post-tpl')
-    $('.g-blog-post').html(tpl({
+    var postTpl = gTpl('#g-post-tpl')
+    var commentTpl = gTpl('#g-post-comment-tpl')
+    var editorTpl = gTpl('#g-post-comment-editor-tpl')
+    $('.g-blog-post-main').html(postTpl({
       content: content,
       updatedAt: updatedAt,
-      author: author
+      author: author,
+      createdAt: createdAt
     }))
+    $('.g-blog-comment-editor').html(editorTpl())
 
-    if ($(window).height() < $('body').height())
-      $('footer').removeClass('navbar-fixed-bottom')
-  })
+    $('#g-blog-comment-submit').click(function () {
+      var content = $('#comment').val()
+      var username = $('#username').val()
+      new Comment(mdName, content, username).put(function () {
+        location.reload()
+      })
+    })
+    $('#g-editor-larger').click(function () {
+      var content = $('.comment').val()
+      $('#g-editor-modal textarea').val(content)
+      $('.g-editor-preview').html(marked(content))
+    })
+    $('#g-editor-modal textarea')
+      .keyup(function (e) {
+        var $this = $(this)
+        var content = $this.val()
+        var height = this.scrollHeight
+        e.which == 9 && insertText(this, '  ')
+        $('.g-editor-preview').html(marked(content))
+        $this.css('height', height)
+      })
+      .keydown(function (e) {
+        if (e.which === 9) e.preventDefault()
+        autoPair(e, this)
+      })
+    $('#g-editor-modal').on('hidden.bs.modal', function (e) {
+      $('.comment').val($('.comment-modal').val())
+    })
 
-
-
-  $(window).scroll(function () {
-    var jumHeight = $('.jumbotron').height(),
-      scrollTop = $(window).scrollTop()
-    if (scrollTop > jumHeight) $('nav').addClass('navbar-fixed-top')
-    else $('nav').removeClass('navbar-fixed-top')
+    if ($(window).height() < $('body').height()) $('footer').removeClass('navbar-fixed-bottom')
   })
 })
+
+
+function Comment(mdName, content, username) {
+
+  this.content = content
+  this.username = username
+  this.mdName = mdName
+
+  this.Comment = AV.Object.extend('Comment')
+}
+
+Comment.prototype.put = function (callback) {
+
+  var markedd = marked(this.content)
+  var encoded = encodeURI(markedd)
+  console.log(this.content)
+  console.log(encoded)
+  console.log(decodeURI(encoded))
+
+
+  var comment = new this.Comment()
+  comment.save({
+    username: this.username,
+    content: encoded,
+    //userIp: userIp,
+    mdName: this.mdName
+  }, {
+    success: function (r) {
+      callback(r)
+    },
+    error: function () {
+
+    }
+  })
+}
+
+Comment.prototype.get = function (callback) {
+
+  var query = new AV.Query(this.Comment)
+  query.equalTo("mdName", this.mdName)
+  query.ascending("createdAt")
+  query.find({
+    success: function (r) {
+      callback(r)
+    },
+    error: function (err) {
+      console.log(err)
+    }
+  })
+
+}
+
+function gTpl(selector) {
+  var source = $(selector).html();
+  return Handlebars.compile(source);
+}
+
+function insertText(obj, str) {
+  if (document.selection) {
+    var sel = document.selection.createRange();
+    sel.text = str;
+  } else if (typeof obj.selectionStart === 'number' && typeof obj.selectionEnd === 'number') {
+    var startPos = obj.selectionStart,
+      endPos = obj.selectionEnd,
+      cursorPos = startPos,
+      tmpStr = obj.value;
+    console.log(tmpStr)
+    obj.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
+    cursorPos += str.length;
+    obj.selectionStart = obj.selectionEnd = cursorPos;
+  } else {
+    obj.value += str;
+  }
+}
+
+function autoPair(e, obj) {
+  //var e = window.event;
+  if (e.which == 16 && e.which == 57)
+    insertText(obj, ")")
+  else if (e.which == 16 && e.which == 219)
+    insertText(obj, "}")
+  else if (e.which == 219)
+    insertText(obj, "]")
+}
+
+function htmlEntity(html) {
+  html = html.replace(/[\r\n]/g, "")
+  html = html.replace(/\</g, "&lt;")
+  html = html.replace(/\>/g, "&gt;")
+  html = html.replace(/\"/g, "&quot;")
+  html = html.replace(/\'/g, "&#39;")
+  html = html.replace(/\s/g, "&nbsp;")
+  return html
+}
+
+function htmlEntityRe(entity) {
+  entity = entity.replace(/&lt;/g, "<")
+  entity = entity.replace(/&gt;/g, ">")
+  entity = entity.replace(/&#39;/g, "\'")
+  entity = entity.replace(/&quot;/g, "\"")
+
+  // var code = entity.replace(/<code>([\w|\W])+<\/code>/, )
+
+}

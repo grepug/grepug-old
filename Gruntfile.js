@@ -113,7 +113,7 @@ module.exports = function (grunt) {
     grunt.file.recurse('./posts-raw/', function (abs, root, sub, mdName) {
       if (/.md/.test(mdName)) {
         var _isNew = isNew(mdName)
-        var _isNew = true
+        //var _isNew = true
         var stat = fs.statSync('./posts-raw/' + mdName)
         var md = fs.readFileSync('./posts-raw/' + mdName).toString()
         var html = marked(md).replace(/[\r\n]/g, "")
@@ -127,7 +127,7 @@ module.exports = function (grunt) {
             title: title,
             author: "GrePuG",
             preview: preview,
-            content: es(html),
+            content: encodeURI(html),
             mdName: mdName,
             createdAt: stat.ctime,
             updatedAt: stat.ctime,
@@ -135,7 +135,7 @@ module.exports = function (grunt) {
         } else {
           var data = _isNew
           data.updatedAt = stat.ctime
-          data.content = es(html)
+          data.content = encodeURI(html)
           data.preview = preview
           data.title = title
         }

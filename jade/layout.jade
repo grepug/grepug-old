@@ -10,12 +10,15 @@ html(lang="CN-Zh")
     link(rel="icon", href="")
     block styles
       link(rel="stylesheet", href="../static/bower_components/bootstrap/dist/css/bootstrap.min.css")
+      link(rel="stylesheet", href="../static/css/common.css")
       link(rel="stylesheet", href="../static/css/footer.css")
       //-each p in lang.youziku
       //- link(rel="stylesheet", href="http://www.youziku.com/webfont/NameCSS/"+ p)
   body
     block nav
       include ./inc/nav
+    button.btn.btn-default.g-backtop.hidden-xs
+      span.glyphicon.glyphicon-arrow-up
     block content
     block footer
       include ./inc/footer

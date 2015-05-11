@@ -12,10 +12,11 @@ $(function () {
     Handlebars.registerHelper('time', function (time, options) {
       return new NiceTime(time, "EN").get()
     })
-
-    $("#blogPreview").html(unes(tpl({
+    var out = unes(tpl({
       p: r
-    })))
+    }))
+    console.log(out)
+    $("#blogPreview").html(out)
   })
 
   $(window).scroll(function () {
@@ -27,7 +28,8 @@ $(function () {
 })
 
 function unes(data) {
-  var d = lang.String.decodeHtml(data)
-  d = d.replace('&#39;', "'")
+  var d = decodeURI(data)
+  d = d.replace(/&amp;/g, "\&")
+  d = d.replace(/&#39;/g, "\'")
   return d
 }
