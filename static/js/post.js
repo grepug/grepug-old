@@ -71,18 +71,28 @@ $(function () {
       $('#g-editor-modal textarea').val(content)
       $('.g-editor-preview').html(marked(content))
     })
+
+    var shiftKey = false;
     $('#g-editor-modal textarea')
       .keyup(function (e) {
         var $this = $(this)
         var content = $this.val()
         var height = this.scrollHeight
-        e.which == 9 && insertText(this, '  ')
         $('.g-editor-preview').html(marked(content))
         $this.css('height', height)
+        if (e.which == 16) shiftKey = false
       })
       .keydown(function (e) {
-        if (e.which === 9) e.preventDefault()
-        autoPair(e, this)
+        if (e.which === 16) shiftKey = true
+        if (e.which === 9 && shiftKey === true) {
+          e.preventDefault()
+          console.log("ShiftTab")
+        }
+        if (e.which === 9 && shiftKey === false) {
+          e.preventDefault()
+          insertText(this, '  ')
+        }
+        keyCombination(e, this, shiftKey)
       })
     $('#g-editor-modal').on('hidden.bs.modal', function (e) {
       $('.comment').val($('.comment-modal').val())
@@ -92,6 +102,10 @@ $(function () {
   })
 })
 
+
+function test(){
+  $()
+}
 
 function Comment(mdName, content, username) {
 
@@ -148,7 +162,8 @@ function gTpl(selector) {
   return Handlebars.compile(source);
 }
 
-function insertText(obj, str) {
+function insertText(obj, str, backspace) {
+  backspace = backspace || 0
   if (document.selection) {
     var sel = document.selection.createRange();
     sel.text = str;
@@ -160,20 +175,22 @@ function insertText(obj, str) {
     console.log(tmpStr)
     obj.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
     cursorPos += str.length;
-    obj.selectionStart = obj.selectionEnd = cursorPos;
+    obj.selectionStart = obj.selectionEnd = cursorPos - backspace;
   } else {
     obj.value += str;
   }
 }
 
-function autoPair(e, obj) {
+function keyCombination(e, obj, shiftKey) {
   //var e = window.event;
-  if (e.which == 16 && e.which == 57)
-    insertText(obj, ")")
-  else if (e.which == 16 && e.which == 219)
-    insertText(obj, "}")
+  if (shiftKey === true && e.which == 57)
+    insertText(obj, ")", 1)
+  else if (shiftKey === true && e.which == 219)
+    insertText(obj, "}", 1)
+    //  else if (shiftKey === true && e.which == 9)
+    //    alert(1)
   else if (e.which == 219)
-    insertText(obj, "]")
+    insertText(obj, "]", 1)
 }
 
 function htmlEntity(html) {

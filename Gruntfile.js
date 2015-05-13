@@ -37,7 +37,8 @@ module.exports = function (grunt) {
         },
         files: {
           "./index.html": "./jade/index.jade",
-          "./post/index.html": './jade/post.jade'
+          "./post/index.html": './jade/post.jade',
+          "./write/index.html": './jade/write.jade'
         }
       },
       post: {
@@ -113,7 +114,7 @@ module.exports = function (grunt) {
     grunt.file.recurse('./posts-raw/', function (abs, root, sub, mdName) {
       if (/.md/.test(mdName)) {
         var _isNew = isNew(mdName)
-        //var _isNew = true
+          //var _isNew = true
         var stat = fs.statSync('./posts-raw/' + mdName)
         var md = fs.readFileSync('./posts-raw/' + mdName).toString()
         var html = marked(md).replace(/[\r\n]/g, "")

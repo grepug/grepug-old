@@ -2,10 +2,7 @@ extends ./layout
 
 block title
   title home page
-block styles
-  link(rel="stylesheet", href="./static/bower_components/bootstrap/dist/css/bootstrap.min.css")
-  link(rel="stylesheet", href="./static/css/common.css")
-  link(rel="stylesheet", href="./static/css/footer.css")
+block append styles
   link(rel="stylesheet", href="./static/css/index.css")
   link(rel="stylesheet", href="./static/css/blog.css")
   //-each p in lang.youziku
@@ -28,9 +25,7 @@ block prepend nav
       btn.btn.btn-trans.visible-xs-block #{lang.index.jumbotron.btn4}
 block content
   .container#blogPreview
-block scripts
-  script(src="./static/bower_components/jquery/dist/jquery.min.js")
-  script(src="./static/bower_components/bootstrap/dist/js/bootstrap.min.js")
+block append scripts
   script(src="./static/js/handlebars.min.js")
   script(src="./static/js/unescape-html.js")
   script(src="./static/js/common.js")

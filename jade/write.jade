@@ -1,0 +1,19 @@
+extends ./layout
+
+block title
+  title Write a post
+block append styles
+  link(rel="stylesheet", href="/static/css/write.css")
+block content
+  h1.text-center Write Your Post
+  //-button.btn.btn-primary(style="float: right; display: inline;") Submit
+  br
+  .container-fluid
+    .row
+      .col-sm-6
+        textarea.form-control#g-write-editor(rows="60")
+      .col-sm-6
+        .g-write-preview
+block append scripts
+  script(src="/static/js/marked.js")
+  script(src="/static/js/write.js")
