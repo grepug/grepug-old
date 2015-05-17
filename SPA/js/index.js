@@ -182,9 +182,6 @@ $(function () {
 
     initialize: function () {
       this.logToggle()
-      AV.User.bind('all', function () {
-        alert(14)
-      })
     },
 
     el: 'nav',
