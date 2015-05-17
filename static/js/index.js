@@ -1,23 +1,32 @@
 $(function () {
 
+  AV.initialize("xr3759mn36mdgbwuef3guyy0s45gooe1x9ggcp67yefecdy2", "7sa4nztm68wjud0q939y26a4jwmmep0zwjui6hj95il4lx1c")
+
   var gTpl = function (selector) {
     var source = $(selector).html();
     return Handlebars.compile(source);
   }
 
-  $.getJSON('./json/posts.json', function (r) {
+  AV.Cloud.run('getPreview', {}, {
+    success: function (r) {
+      var tpl = gTpl("#blogPreview-tpl")
 
-    var tpl = gTpl("#blogPreview-tpl")
-
-    Handlebars.registerHelper('time', function (time, options) {
-      return new NiceTime(time, "EN").get()
-    })
-    var out = unes(tpl({
-      p: r
-    }))
-    console.log(out)
-    $("#blogPreview").html(out)
+      Handlebars.registerHelper('time', function (time, options) {
+        console.log(time)
+        return new NiceTime(time, "EN").get()
+      })
+      var out = unes(tpl({
+        p: r
+      }))
+      console.log(out)
+      $("#blogPreview").html(out)
+    }
   })
+
+  //  $.getJSON('./json/posts.json', function (r) {
+  //
+  //
+  //  })
 
   $(window).scroll(function () {
     var jumHeight = $('.jumbotron').height(),

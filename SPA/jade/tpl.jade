@@ -1,0 +1,103 @@
+script#blogPreview-tpl(type='text/x-handlebars-template')
+  .row
+    .col-sm-2
+    .col-sm-8.g-blog-main
+      | {{#each p}}
+      .g-blog-post
+        h2.g-blog-post-title
+          a.link(href='#post/{{id}}') {{title}}
+        p.g-blog-post-preview {{preview}}
+        p.g-blog-post-footer
+          span.g-blog-post-meta
+            | updated {{time updatedAt}} by
+            a(href='#grepug')  GrePuG
+          span.g-blog-post-share
+            a
+              span.glyphicon.glyphicon-star
+      | {{/each}}
+    .col-sm-2
+    
+script#nav-tpl(type='text/x-handlebars-template')
+  
+
+script#jumbotron-tpl(type='text/x-handlebars-template')
+  .jumbotron
+    .container
+      h1 Welcome to my Inn!
+      h4.g-blog-description Innovation distinguishes between a leader and a follower!
+      br
+      btn.btn.btn-trans.btn-lg.hidden-xs What's hot
+      btn.btn.btn-trans.btn-lg.hidden-xs What's good
+      btn.btn.btn-trans.btn-lg.hidden-xs What's fun
+      btn.btn.btn-trans.btn-lg.hidden-xs What's useful
+      btn.btn.btn-trans.visible-xs-block What's hot 
+      btn.btn.btn-trans.visible-xs-block What's good
+      btn.btn.btn-trans.visible-xs-block What's fun
+      btn.btn.btn-trans.visible-xs-block What's useful
+ 
+script#footer-tpl(type='text/x-handlebars-template')
+  footer
+    .container
+      p Welcome to my site
+
+script#post-tpl(type='text/x-handlebars-template')
+  .g-blog-post
+    .g-blog-post-main
+      .g-blog-post-content {{{content}}}
+      .g-blog-post-footer
+        .container-fluid
+          .row
+            .col-sm-3
+              span.g-blog-post-meta updated {{time updatedAt true}}
+            .col-sm-9
+              span.g-blog-post-meta
+                | created at {{time createdAt false}}
+                span.g-blog-post-share
+                  a
+                    span.glyphicon.glyphicon-star
+    .g-blog-comment-editor
+      .form-inline.g-form
+        label(for='username') Your name
+        input#username.form-control(type='text')
+      label(for='comment') Your comment ( you can write with MarkDown )
+      textarea.form-control.comment(rows='5')
+      .g-blog-post-comment-footer
+        button#g-blog-comment-submit.btn.btn-primary Submit
+        a#g-editor-larger.btn.btn-success(data-toggle='modal', data-target='#g-editor-modal') Larger with preview
+
+script#write-tpl(type='text/x-handlebars-template')
+  h1.text-center Write Your Post
+  button.btn.btn-primary.g-write-submit Submit
+  br
+  .container-fluid
+    .row
+      .col-sm-6
+        textarea#g-write-editor.form-control(rows='60')
+      .col-sm-6
+        .g-write-preview
+        
+script#login-tpl(type='text/x-handlebars-template')
+  .container(style="margin-bottom: 400px")
+    .row
+      .col-sm-4
+      .col-sm-4
+        form
+          .form-group
+            label(for="loginUsername") Username
+            input.form-control#loginUsername(type="text", placeholder="Your username")
+          .form-group
+            label(for="loginPassword") Password
+            input.form-control#loginPassword(type="password", placeholder="Your password")
+          button.btn.btn-primary.login-submit Login
+        br
+        br
+        form
+          .form-group
+            label(for="signupUsername") Username
+            input.form-control#signupUsername(type="text", placeholder="Your username")
+          .form-group
+            label(for="signupPassword") Password
+            input.form-control#signupPassword(type="password", placeholder="Your password")
+          button.btn.btn-primary.signup-submit Signup
+      .col-sm-4
+

@@ -2,6 +2,16 @@ $(function () {
 
   AV.initialize("xr3759mn36mdgbwuef3guyy0s45gooe1x9ggcp67yefecdy2", "7sa4nztm68wjud0q939y26a4jwmmep0zwjui6hj95il4lx1c");
 
+  AV.Cloud.run('getObject', {
+    _class: 'Comment',
+    Obj: ['content', 'mdName'],
+    orderBy: 'createdAt'
+  }, {
+    success: function (r) {
+      console.log(r)
+    }
+  })
+
   String.prototype.getParam = function (parm) {
     var reg = new RegExp("(^|&)" + parm + "=([^&]*)(&|$)")
 
@@ -14,6 +24,13 @@ $(function () {
 
   var url = location.href;
   var title = url.getParam("title")
+
+  AV.Cloud.run('getPost', {}, {
+    success: function (r) {
+      console.log(r)
+    }
+  })
+
   $.getJSON('../json/posts.json', function (r) {
     for (var i = 0; i < r.length; i++) {
       if (r[i].title == title.replace("#", "")) {
@@ -24,6 +41,28 @@ $(function () {
         var mdName = r[i].mdName
       }
     }
+
+    AV.Cloud.run('getComment', {
+      postId: postId
+    }, {
+      success: function (r) {
+        var tpl = gTpl("#g-post-comment-tpl")
+
+        Handlebars.registerHelper('time', function (date, nicetime, options) {
+          return new NiceTime(date, 'EN', nicetime).get()
+        })
+
+        for (var i = 0; i < r.length; i++) {
+          var obj = r[i]
+          $('.g-blog-post-main').after(tpl({
+            username: obj.get('username'),
+            content: decodeURI(obj.get('content')),
+            createdAt: obj.createdAt,
+            i: i + 1
+          }))
+        }
+      }
+    })
 
     new Comment(mdName).get(function (r) {
       var tpl = gTpl("#g-post-comment-tpl")
@@ -103,7 +142,7 @@ $(function () {
 })
 
 
-function test(){
+function test() {
   $()
 }
 
