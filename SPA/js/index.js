@@ -250,17 +250,21 @@ $(function () {
       "login": "login",
       "post/:id": "getPost"
     },
-
-    login2: function (action) {
-      //switch (action)
+    initialize: function () {},
+    undelegate: function () {
+      if (this.currentView) {
+        this.currentView.undelegateEvents()
+        delete this.currentView
+      }
     },
-
     home: function () {
-      new HomeView
+      this.undelegate()
+      this.currentView = new HomeView
     },
 
     write: function () {
-      if (AV.User.current()) new WriteView
+      this.undelegate()
+      if (AV.User.current()) this.currentView = new WriteView
       else {
         this.redirect = 'wirte'
         this.navigate('login', {
@@ -271,6 +275,9 @@ $(function () {
     },
 
     login: function () {
+
+      this.undelegate()
+
       if (!AV.User.current()) {
         new LoginView
       }
@@ -280,9 +287,9 @@ $(function () {
       //      })
     },
     getPost: function (id) {
+      this.undelegate()
       new PostView(id)
     },
-    redirect: undefined
   })
 
   Handlebars.registerHelper('time', function (date, nicetime, options) {
@@ -340,7 +347,7 @@ Editor.prototype._init = function () {
   this.textareaObj = $(this.textarea).get(0)
   this.tmpValue = this.textareaObj.value
 
-  $(this.el).delegate(this.textarea, 'keydown', function () {
+  $(this.el).delegate(this.textarea, 'keydown', function (e) {
       if (that.keyPreventDefault.indexOf(e.which) != -1) e.preventDefault()
       that.pressing[e.which] = true
         //console.log(that.pressing)
@@ -356,7 +363,7 @@ Editor.prototype._init = function () {
       that.pressing[e.which] = false
       if (that.autoHeight) that._autoHeight()
 
-      if (that.preview) $preview.html(that.marked(content))
+      // if (that.preview) $preview.html(that.marked(content))
     })
     .delegate(this.textarea, 'select', function (e) {
       that.startPos = this.selectionStart
@@ -373,10 +380,10 @@ Editor.prototype._init = function () {
     })
     .delegate(this.textarea, 'blur', function (e) {
       that.selected = false
-      if (that.preview) $preview.html(that.marked(content))
+        // if (that.preview) $preview.html(that.marked(content))
     })
     .delegate(this.textarea, 'change', function (e) {
-      if (that.preview) $preview.html(that.marked(content))
+      //if (that.preview) $preview.html(that.marked(content))
     })
 }
 
