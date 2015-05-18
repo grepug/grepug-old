@@ -18,6 +18,7 @@ function NiceTime(date, lang, nicetime) {
 
 NiceTime.prototype.byNow = function () {
   this.diff = this.now - this.timeStamp
+  if (this.diff <= 59) return 'just now'
   for (var p in this.seconds) {
     if (this.diff < this.seconds[p]) return p
   }
@@ -60,6 +61,8 @@ NiceTime.prototype.get = function () {
     }
   }
   switch (timeLevel) {
+  case 'just now':
+    return 'just now'
   case 'min':
     return Math.round(this.diff).niceTimeLang(timeLevel, this.lang)
   case 'hour':

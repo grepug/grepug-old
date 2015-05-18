@@ -32,10 +32,12 @@ $(function () {
       })
     },
     comparator: function (v1, v2) {
+      //      var a = new Date(v1.updatedAt).getTime()
+      //      var b = new Date(v2.updatedAt).getTime()
       var a = v1.updatedAt
       var b = v2.updatedAt
-      if (v1 <= v2) return 1
-      if (v1 > v2) return -1
+      if (a < b) return 1
+      if (a > b) return -1
     }
   })
 
@@ -46,6 +48,7 @@ $(function () {
     initialize: function () {
       this.postList = postList
       _.bindAll(this, 'render')
+      this.postList.bind('add', this.addPost)
       this.postList.bind('reset', this.render)
       this.render()
     },
@@ -53,17 +56,20 @@ $(function () {
     events: {
       //"click .g-open-post": "openPost"
     },
-
+    addPost: function () {
+      console.log(postList)
+    },
     render: function () {
       var tpl = Handlebars.compile($('#blogPreview-tpl').html())
       var p = []
 
-      this.postList.each(function (ret) {
+      postList.each(function (ret) {
+        var date = ret.getUpdatedAt()
         p.push({
           id: ret.id,
           title: ret.get('title'),
           preview: ret.get('preview'),
-          updatedAt: ret.updatedAt
+          updatedAt: date
         })
       })
 
@@ -94,7 +100,7 @@ $(function () {
         autoHeight: true
       })._init()
 
-      this.posts = new PostList
+      this.postList = postList
 
       scroll(0, $('nav').offset().top)
     },
@@ -104,15 +110,21 @@ $(function () {
       var html = marked($('#g-write-editor').val()).replace(/[\r\n]/g, "")
       var titleMatch = html.match(/^<h1\sid=\"(\w|\d|-)+\">([\w|\s|!|\.|\,|\?]+)<\/h1>/)
       var previewMatch = html.match(/<blockquote><p>([\w|\W]+)<\/p><\/blockquote>/)
-      if (titleMatch && previewMatch && titleMatch[2].length > 5 && previewMatch[1].length > 10) {
-        this.posts.create({
-          title: title,
-          content: encodeURI(html),
-          preview: preview
-        })
-        AV.history.navigate('', {
-          trigger: true
-        })
+      if (titleMatch && previewMatch && titleMatch[2].length > 1 && previewMatch[1].length > 1) {
+        this.postList.create({
+            title: titleMatch[2],
+            content: encodeURI(html),
+            preview: previewMatch[1]
+          }, {
+            wait: true,
+            success: function () {
+              appRouter.navigate('', {
+                trigger: true
+              })
+            }
+          })
+          //        postList.fetch()
+
       } else alert('Title and Preview are required!')
 
 
